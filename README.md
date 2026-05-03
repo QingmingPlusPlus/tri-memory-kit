@@ -1,6 +1,6 @@
 # tri-memory
 
-[中文说明](README.zh-CN.md)
+[中文说明](https://github.com/QingmingPlusPlus/tri-memory-kit/blob/main/README.zh-CN.md)
 
 Initialize a three-layer memory governance structure for AI agent projects.
 

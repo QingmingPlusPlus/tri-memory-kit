@@ -1,9 +1,17 @@
 {
   "name": "tri-memory",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Initialize three-layer memory governance for AI agent projects.",
   "license": "MIT",
   "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QingmingPlusPlus/tri-memory-kit.git"
+  },
+  "homepage": "https://github.com/QingmingPlusPlus/tri-memory-kit#readme",
+  "bugs": {
+    "url": "https://github.com/QingmingPlusPlus/tri-memory-kit/issues"
+  },
   "bin": {
     "tri-memory": "./bin/tri-memory.js"
   },
