@@ -1,6 +1,6 @@
 {
   "name": "tri-memory",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Initialize three-layer memory governance for AI agent projects.",
   "license": "MIT",
   "type": "commonjs",
