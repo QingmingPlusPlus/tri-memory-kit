@@ -35,7 +35,7 @@ npx tri-memory init --lang zh
 npx tri-memory init --dry-run
 ```
 
-覆盖已有文件：
+覆盖已有的非 `AGENTS.md` 文件。已有 `AGENTS.md` 只会替换或追加 `tri-memory` 记忆区块：
 
 ```bash
 npx tri-memory init --force

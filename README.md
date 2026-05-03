@@ -37,7 +37,7 @@ Preview files without writing:
 npx tri-memory init --dry-run
 ```
 
-Overwrite existing files:
+Overwrite existing non-`AGENTS.md` files. Existing `AGENTS.md` files are updated by replacing or appending only the `tri-memory` memory block:
 
 ```bash
 npx tri-memory init --force

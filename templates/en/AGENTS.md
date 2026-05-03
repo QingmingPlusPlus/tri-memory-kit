@@ -1,32 +1,25 @@
-# AGENTS Guide (<project-name>)
+# AGENTS Guide
 
-This file keeps only repository-level hard constraints. See `doc/agent-guide.md` for memory governance rules, and read `doc/agent-memory-map.md` before substantial development, review, debugging, or documentation changes.
+<!-- tri-memory:start -->
+## tri-memory Three-Layer Memory
 
-## Repository Boundaries
+This repository uses `tri-memory` to keep agent context small, findable, and current.
 
-- `<app-a>` owns platform A UI and platform adaptation only.
-- `<app-b>` owns platform B UI and platform adaptation only.
-- `<shared>` owns reusable business logic, request wrappers, type definitions, and pure utilities.
-- Do not make one app depend directly on another app. Cross-platform reuse must go through stable interfaces exposed by `<shared>`.
+### Memory Entry
 
-## Memory Routing
+- Read `doc/agent-memory-map.md` before substantial development, review, debugging, or docs/spec/skill changes.
+- Choose the most specific matching row, then read the listed `doc`, `spec`, and skills before implementation.
+- If no row matches, search `doc/`, `spec/`, `openspec/specs/`, and `.agents/skills/` with `rg`; add a routing row when this work creates a long-term entry point.
 
-- For small local edits, read the relevant row in `doc/agent-memory-map.md`.
-- For feature work, reviews, debugging, or docs/spec/skill changes, read the matching `doc`, `spec`, and listed skills before implementation.
-- If no row matches, use `rg` to search `doc/`, `spec/`, `openspec/specs/`, and `.agents/skills/`; add a routing row when the change creates a long-term entry point.
+### Three-Layer Placement
 
-## Change Checklist
+- Future behavior constraints, acceptance scenarios, and long-term business rules go in `spec/` or `openspec/specs/`.
+- Current project state, modules, routes, pages, fields, APIs, and migration notes go in `doc/`.
+- Stable reusable workflows with clear steps and self-checks go in `.agents/skills/`.
 
-1. Identify the module owned by this change.
-2. Decide whether any behavior should move to a shared layer.
-3. Put future constraints in spec, current project state in `doc/`, and reusable workflows in `.agents/skills/`.
-4. Update `doc/agent-memory-map.md` when adding or changing a long-term module entry, spec, document, or skill.
-5. Check that no invalid dependency direction was introduced.
+### Memory Hygiene
 
-## Conflict Priority
-
-When records disagree, prefer: current user request > spec > tests > implementation > doc > skill/history.
-
-## Safety
-
-Do not store secrets, credentials, private customer data, or short-lived debugging notes in project memory.
+- Update `doc/agent-memory-map.md` when adding or changing a long-term module entry, spec, document, or skill.
+- Do not put page descriptions, field lists, current API exceptions, one-off migration context, or current project state into skills.
+- Do not store secrets, credentials, private customer data, or short-lived debugging notes in project memory.
+<!-- tri-memory:end -->

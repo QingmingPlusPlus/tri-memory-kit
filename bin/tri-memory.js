@@ -5,6 +5,10 @@ const path = require("node:path");
 
 const packageJson = require("../package.json");
 
+const AGENTS_FILE = "AGENTS.md";
+const TRI_MEMORY_START = "<!-- tri-memory:start -->";
+const TRI_MEMORY_END = "<!-- tri-memory:end -->";
+
 const usage = `tri-memory ${packageJson.version}
 
 Usage:
@@ -15,7 +19,7 @@ Usage:
 Options:
   --chinese       Use Chinese templates.
   --lang <lang>   Template language: en or zh.
-  --force         Overwrite existing files.
+  --force         Overwrite existing non-AGENTS files.
   --dry-run       Show files that would be created without writing.
   --help          Show help.
   --version       Show version.
@@ -134,12 +138,27 @@ function init(options) {
   const files = collectFiles(templateRoot);
   const created = [];
   const skipped = [];
+  const updated = [];
   const overwritten = [];
 
   for (const sourceFile of files) {
     const relativePath = path.relative(templateRoot, sourceFile);
     const targetFile = path.join(targetRoot, relativePath);
     const exists = fs.existsSync(targetFile);
+
+    if (isAgentsFile(relativePath)) {
+      const result = upsertAgentsFile({
+        sourceFile,
+        targetFile,
+        exists,
+        dryRun: options.dryRun
+      });
+
+      created.push(...result.created);
+      updated.push(...result.updated);
+      skipped.push(...result.skipped);
+      continue;
+    }
 
     if (exists && !options.force) {
       skipped.push(relativePath);
@@ -162,9 +181,77 @@ function init(options) {
     lang: options.lang,
     targetRoot,
     created,
+    updated,
     overwritten,
     skipped
   });
+}
+
+function isAgentsFile(relativePath) {
+  return toPosixPath(relativePath) === AGENTS_FILE;
+}
+
+function upsertAgentsFile({ sourceFile, targetFile, exists, dryRun }) {
+  const relativePath = AGENTS_FILE;
+  const templateContent = fs.readFileSync(sourceFile, "utf8");
+  const result = {
+    created: [],
+    updated: [],
+    skipped: []
+  };
+
+  if (!exists) {
+    if (!dryRun) {
+      fs.mkdirSync(path.dirname(targetFile), { recursive: true });
+      fs.writeFileSync(targetFile, templateContent, "utf8");
+    }
+    result.created.push(relativePath);
+    return result;
+  }
+
+  const currentContent = fs.readFileSync(targetFile, "utf8");
+  const memoryBlock = extractTriMemoryBlock(templateContent);
+  const nextContent = mergeTriMemoryBlock(currentContent, memoryBlock);
+
+  if (currentContent === nextContent) {
+    result.skipped.push(relativePath);
+    return result;
+  }
+
+  if (!dryRun) {
+    fs.writeFileSync(targetFile, nextContent, "utf8");
+  }
+  result.updated.push(relativePath);
+  return result;
+}
+
+function extractTriMemoryBlock(content) {
+  const startIndex = content.indexOf(TRI_MEMORY_START);
+  const endIndex = content.indexOf(TRI_MEMORY_END);
+
+  if (startIndex === -1 || endIndex === -1 || endIndex < startIndex) {
+    fail(`Template ${AGENTS_FILE} must contain tri-memory markers.`);
+  }
+
+  return content.slice(startIndex, endIndex + TRI_MEMORY_END.length);
+}
+
+function mergeTriMemoryBlock(content, memoryBlock) {
+  const lineEnding = content.includes("\r\n") ? "\r\n" : "\n";
+  const normalizedBlock = memoryBlock.replace(/\r?\n/g, lineEnding);
+  const startIndex = content.indexOf(TRI_MEMORY_START);
+  const endIndex = content.indexOf(TRI_MEMORY_END);
+
+  if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
+    return (
+      content.slice(0, startIndex) +
+      normalizedBlock +
+      content.slice(endIndex + TRI_MEMORY_END.length)
+    );
+  }
+
+  const trimmedContent = content.replace(/[ \t\r\n]*$/, "");
+  return `${trimmedContent}${lineEnding}${lineEnding}${normalizedBlock}${lineEnding}`;
 }
 
 function collectFiles(root) {
@@ -195,12 +282,13 @@ function printSummary(result) {
   console.log(`Language: ${result.lang === "zh" ? "Chinese" : "English"}`);
 
   printList("Created", result.created);
+  printList("Updated", result.updated);
   printList("Overwritten", result.overwritten);
   printList("Skipped", result.skipped);
 
   if (result.skipped.length > 0 && !result.force) {
     console.log("");
-    console.log("Use --force to overwrite skipped files.");
+    console.log("Use --force to overwrite skipped non-AGENTS files.");
   }
 }
 
