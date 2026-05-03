@@ -1,0 +1,33 @@
+{
+  "name": "tri-memory",
+  "version": "0.1.0",
+  "description": "Initialize three-layer memory governance for AI agent projects.",
+  "license": "MIT",
+  "type": "commonjs",
+  "bin": {
+    "tri-memory": "./bin/tri-memory.js"
+  },
+  "files": [
+    "bin",
+    "templates",
+    "README.md",
+    "LICENSE",
+    "agent-memory-governance-template.md"
+  ],
+  "scripts": {
+    "check": "node ./bin/tri-memory.js init --dry-run"
+  },
+  "keywords": [
+    "agent",
+    "memory",
+    "ai-agent",
+    "codex",
+    "claude",
+    "cursor",
+    "governance",
+    "cli"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}
