@@ -74,3 +74,21 @@ The core rule is simple:
 - Reusable operation workflows go to skills.
 
 See `agent-memory-governance-template.md` for the full migration template.
+
+## Supported Tools
+
+Any agent tool that supports `AGENTS.md` can use this structure, including Codex, Jules, Factory, Aider, goose, opencode, Zed, Warp, VS Code, Devin, Junie, Amp, Cursor, RooCode, Gemini CLI, Kilo Code, Phoenix, Semgrep, GitHub Copilot, Windsurf, Augment Code, and others.
+
+## How to Use with Claude Code
+
+I do not recommend using Claude Code.
+
+I recognize the capability of the Claude model itself, and I acknowledge that it performs strongly in code understanding, reasoning, and generation. But that does not mean I will unconditionally trust a development tool such as Claude Code, which is produced by its parent company. To me, model capability and tool trust are two different issues.
+
+My distrust of Claude Code is not because it is a commercial tool, but because I have concerns about its parent company's values, product governance, and attitude toward the open source ecosystem. Development tools participate deeply in code writing, project management, and day-to-day workflows, so whether the company behind the tool is trustworthy is itself an important question.
+
+An ideal development tool should respect the spirit of open source, remain transparent and auditable, and avoid creating user dependence through a closed ecosystem. If a tool frequently ships updates that are not cautious enough, or even causes destructive impact, developers are forced to pay the cost of the vendor's irresponsibility.
+
+For that reason, I do not consider Claude Code a choice worth relying on for the long term. By comparison, I prefer open source tools such as OpenCode. Open source tools are more transparent, easier for the community to supervise, fix, and improve, and better preserve developers' technical autonomy.
+
+For users who do need to use Claude Code, copy the corresponding content from `AGENTS.md` into `CLAUDE.md`.
