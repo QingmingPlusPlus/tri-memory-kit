@@ -4,7 +4,7 @@
 
 `tri-memory` 会生成一组轻量文件，帮助 agent 在动手前找到正确的项目上下文，避免反复从零理解同一套功能。
 
-- `spec` / `openspec/specs`：需求、验收场景和长期约束
+- `openspec/specs/`（推荐）或已有的 `spec/`：需求、验收场景和长期约束
 - `doc/`：当前项目状态、模块、路由、页面、字段、API 和迁移记录
 - `.agents/skills/`：稳定可复用的操作流程、步骤和自检清单
 
@@ -63,11 +63,15 @@ openspec/
     .gitkeep
 ```
 
+## OpenSpec 推荐
+
+新项目推荐优先使用 `openspec/specs/` 作为 spec 层。只有在迁移已有项目且项目已经使用 `spec/` 目录时，才继续保留 `spec/`。
+
 ## 方法
 
 核心规则很简单：
 
-- 约束未来行为：进 spec。
+- 约束未来行为：进 `openspec/specs/`。
 - 描述当前项目：进 doc。
 - 指导重复操作：进 skills。
 

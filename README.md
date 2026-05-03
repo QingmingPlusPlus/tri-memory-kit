@@ -6,7 +6,7 @@ Initialize a three-layer memory governance structure for AI agent projects.
 
 `tri-memory` creates a small set of files that help agents find the right project context before they work:
 
-- `spec` / `openspec/specs`: requirements, acceptance scenarios, and long-term constraints
+- `openspec/specs/` (recommended) or existing `spec/`: requirements, acceptance scenarios, and long-term constraints
 - `doc/`: current project state, modules, routes, pages, fields, APIs, and migration notes
 - `.agents/skills/`: stable reusable workflows with steps and self-checks
 
@@ -65,11 +65,15 @@ openspec/
     .gitkeep
 ```
 
+## OpenSpec Recommendation
+
+For new projects, prefer `openspec/specs/` as the spec layer. Keep `spec/` only when migrating an existing project that already uses that directory.
+
 ## Method
 
 The core rule is simple:
 
-- Future behavior constraints go to spec.
+- Future behavior constraints go to `openspec/specs/`.
 - Current project state goes to doc.
 - Reusable operation workflows go to skills.
 
