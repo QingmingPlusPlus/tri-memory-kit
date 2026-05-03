@@ -1,5 +1,7 @@
 # tri-memory
 
+[中文说明](README.zh-CN.md)
+
 Initialize a three-layer memory governance structure for AI agent projects.
 
 `tri-memory` creates a small set of files that help agents find the right project context before they work:

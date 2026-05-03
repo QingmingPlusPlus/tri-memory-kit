@@ -11,6 +11,7 @@
     "bin",
     "templates",
     "README.md",
+    "README.zh-CN.md",
     "LICENSE",
     "agent-memory-governance-template.md"
   ],
